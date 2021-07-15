@@ -7,6 +7,7 @@ const app = Express()
 //!Imports
 const dbConnection = require("./db")
 const controllers = require("./controllers/")
+const middlewares = require("./middleware")
 
 dbConnection.authenticate()//returns a promise
     .then(() => dbConnection.sync()) //Syncs models/schemas to the database
@@ -17,6 +18,8 @@ dbConnection.authenticate()//returns a promise
     })
     .catch(err => `[server] crashed ${err}`)
 
+app.use(middlewares.CORS)
+// app.use(middlewares.ValidateSession)
 app.use(Express.json()) //Have to use this to turn the JSON from the POST request into an actual object
 app.use("/pies", controllers.pieController)
 app.use("/user", controllers.userController)

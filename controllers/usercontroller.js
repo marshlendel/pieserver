@@ -3,14 +3,16 @@ const {UserModel} = require("../models")
 const {UniqueContsraintError} = require("sequelize/lib/errors")
 const jwt = require("jsonwebtoken") //Deals with the stateless nature of HTTP
 
+
+//! REGISTER USER
 //POST is used to create and pass data from a body and thi sis an async funciton cause ,authenticate() returns a promise
   router.post("/register", async (req, res) => {
         /*
-        !Way to add data without  object destructuring
+        *Way to add data without  object destructuring
         email: req.body.user.email,
         password: req.body.user.password
         */
-     let {firstName, lastName, email, password} = req.body.user  //Passes the data from the user in the body to the destructured email and password
+     let {firstName, lastName, email, password} = req.body  //Passes the data from the user in the body to the destructured email and password
      try {
         const User = await UserModel.create({
             firstName,
@@ -42,8 +44,9 @@ const jwt = require("jsonwebtoken") //Deals with the stateless nature of HTTP
     
  })
 
+ //!LOGIN USER
  router.post("/login", async (req, res) => {
-     const {email, password} = req.body.user
+     const {email, password} = req.body
      try {
          let loginUser = await UserModel.findOne({
              where: { //Have to use where with fondOne
